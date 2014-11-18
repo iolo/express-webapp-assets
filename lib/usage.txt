@@ -1,0 +1,14 @@
+Usage: express-webapp-assets [args]
+
+--generator,-G  generate static assets.
+--server,-S     start http server.
+--config,-C     config file. './_assets.json' or '_assets' in './package.json'
+--host,-h       http host. config.host or 'localhost'
+--port,-p       http port. config.port or 3000
+--root,-r       http root directory. config.root or './public'
+--src,-s        src directory. config.src or './assets'
+--dst,-d        dst directory. config.dst or '/tmp/assets'
+--includes,-i   comma(,) separated include directories.
+--env,-e        environment. process.env.NODE_ENV or config.env or 'development'
+
+may the SOURCE be with you...
