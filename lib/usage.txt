@@ -6,6 +6,7 @@ Usage: express-webapp-assets [args]
 --host,-h       http host. config.host or 'localhost'
 --port,-p       http port. config.port or 3000
 --root,-r       http root directory. config.root or './public'
+--mount,-m      http mount path for root directory. config.mount or '/'
 --src,-s        src directory. config.src or './assets'
 --dst,-d        dst directory. config.dst or '/tmp/assets'
 --includes,-i   comma(,) separated include directories.
