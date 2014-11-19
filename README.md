@@ -14,6 +14,8 @@ After development,
 - And the generated files could be served with high-performance [static-content http servers].
 - No annoying changes and/or verbose deploy script to switch development/production assets.
 
+>for practical example, see [express-webapp-assets-seed](http://github.com/iolo/express-webapp-assets-seed)
+
 usage
 -----
 
