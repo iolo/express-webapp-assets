@@ -3,7 +3,7 @@ express-webapp-assets
 
 [English](README.md)
 
-[Express]를 위한 웹앱 애센 미들웨어/서버/생성기.
+[Express]를 위한 웹앱 애셋(정적 웹 리소스) 미들웨어/서버/생성기.
 
 `express-webapp-assets`은 다양한 [전처리기](#preprocessors)를 사용하는 *단일페이지/프론트엔드* 웹앱 개발 도구입니다.
 
@@ -145,7 +145,7 @@ $ express-webapp-asset --config=asset_config.json
     - `foo.js` 나 `foo.min.js` 는 `foo.js.bundle` 파일.
     - `foo.css` 나 `foo.min.css` 는 `foo.css.bundle` 파일.
     - 번들 파일은 다른 에셋(파일 아님)을 참조하는 여러 행으로 구성됩니다.
-    - 번들 파일에 포함된 에셋이 모두 처리되면(**재귀적으로**) 결과 파일들을 단일 파일로 병합합니다.
+    - 번들 파일에 포함된 에셋을 모두 처리하고(**재귀적으로**) 결과 파일들을 단일 파일로 병합합니다.
 3. 전처리기 고유의 확장자로 검색
     - `foo.html` 는  `foo.html.jade` 파일.
     - `foo.css` 나 `foo.min.css` 는 `foo.js.less` 파일.
