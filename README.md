@@ -5,31 +5,67 @@ Webapp Assets Middleware/Server/Generator for [Express].
 
 `express-webapp-assets` make easy to write *single page/front-end* webapp using [preprocessors](#preprocessors).
 
-In development phase,
-- It works as a **middleware** for API server written in [Express]/[Node.js].
-- or It works as a **simple http server** for external API server written in other frameworks/languages.
+>For practical example, see [express-webapp-assets-seed](http://github.com/iolo/express-webapp-assets-seed)
 
-In deployment phase:
-- It **generates static files** for all assets written in [preprocessors](#preprocessors).
-- And the generated files could be served with high-performance [static-content http servers](#static-content-http-servers).
-- No annoying changes and/or verbose deploy script to switch development/production assets.
+introduction
+------------
 
->for practical example, see [express-webapp-assets-seed](http://github.com/iolo/express-webapp-assets-seed)
+* It is **NOT** a server application.
+* It is a **development tool** with built-in http server.
+
+* In development phase,
+    - It works as a **middleware** for local API server written in [Express]/[Node.js].
+    - or It works as a **simple http server** for external API server written in other frameworks/languages.
+
+* In deployment phase:
+    - It **generates static files** for all assets written in [preprocessors](#preprocessors).
+    - And the generated files could be served with high-performance [static-content http servers](#static-content-http-servers).
+    - No annoying changes and/or verbose deploy script to switch development/production assets.
+
+In the other words,
+it does copy, filter(render/compile/.../whatever), bundle(merge) and compress assets for you **just in time** or **in batch**.
+
+For example, it does these tasks instead of you(or your [grunt]/[gulp] script):
+```
+$ less foo.less > foo.css
+$ cssmin foo.css > foo.min.css
+$ less bar.less > bar.css
+$ cssmin bar.css > bar.min.css
+$ coffee-script baz.coffee > bar.js
+$ uglify-js baz.js > bar.min.js
+$ coffee-script qux.coffee > qux.js
+$ uglify-js qux.js > qux.min.js
+$ cat foo.css bar.css > all.css
+$ cssmin all.css > all.min.css
+$ cat baz.js qux.js > all.js
+$ uglify-js all.js > all.min.js
+```
+and replace
+```html
+<link rel="stylesheet" href="foo.css" />
+<link rel="stylesheet" href="bar.css" />
+<script src="baz.js"></script>
+<script src="qux.js"></script>
+```
+into 
+```html
+<link rel="stylesheet" href="all.min.css" />
+<script src="all.min.js"></script>
+```
 
 usage
 -----
 
 ### middleware
 
-In development phase,
-- It works as a **middleware** for API server written in [Express]/[Node.js].
+To develop webapp working with local API server written in [Express]/[Node.js].
 
-To install node.js module:
+install node.js module:
 ```
 $ npm install express-webapp-assets --save-dev
 ```
 
-To configure middleware:
+configure middleware:
 ```javascript
 express()
     ...
@@ -38,38 +74,38 @@ express()
     ...
 ```
 
-> NOTE: this is **NOT** intended for production use. use **generator** and deploy to [static-content http servers].
+> NOTE: this is **NOT** intended for production use. use **generator** and deploy to your [static-content http servers](#static-content-http-servers).
 
 ### server
 
-While development,
-- It works as a **simple http server** for external API server written in other frameworks/languages.
+To develop webapp working with external API server written in other frameworks/languages.
 
-To install node.js module global(or local if you want):
+install node.js module global(or local if you want):
 ```
 $ npm install express-webapp-assets -g
 ```
 
-To run server, use `--server` or `-S` CLI option:
+run server, use `--server` or `-S` CLI option:
 ```
 $ express-webapp-asset --server
 ```
 
-> NOTE: this is **NOT** intended for production use. use **generator** and deploy to [static-content http servers].
+> NOTE: this is **NOT** intended for production use. use **generator** and deploy to your [static-content http servers](#static-content-http-servers).
 
 ### generator
 
-In deployment phase,
-- It **generates static files** for all assets written in [preprocessors](#preprocessors).
-- And the generated files could be served with high-performance [static-content http servers](#static-content-http-servers).
-- No annoying modifications and/or verbose deploy script to switch development/production assets.
+It **generates static files** for all assets written in [preprocessors](#preprocessors).
 
-To install node.js module in global(or local if you want):
+And the generated files could be served with high-performance [static-content http servers](#static-content-http-servers).
+
+No annoying modifications and/or verbose deploy script to switch development/production assets.
+
+install node.js module in global(or local if you want):
 ```
 $ npm install express-webapp-assets -g
 ```
 
-To run generator, use `--generator` or `-G` CLI option:
+run generator, use `--generator` or `-G` CLI option:
 ```
 $ express-webapp-assets --generator --env=production
 ```
