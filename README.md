@@ -3,7 +3,7 @@ express-webapp-assets
 
 Webapp Assets Middleware/Server/Generator for [Express].
 
-`express-webapp-assets` make easy to write *single page/front-end* webapp using [preprocessors](#preprocessors).
+`express-webapp-assets` is a development tool to develop *single page/front-end* webapp using [preprocessors](#preprocessors).
 
 >For practical example, see [express-webapp-assets-seed](http://github.com/iolo/express-webapp-assets-seed)
 
@@ -14,8 +14,8 @@ introduction
 * It is a **development tool** with built-in http server.
 
 * In development phase,
-    - It works as a **middleware** for local API server written in [Express]/[Node.js].
-    - or It works as a **simple http server** for external API server written in other frameworks/languages.
+    - It works as an embedded **middleware** for local API server written in [Express]/[Node.js].
+    - or It works as a sepratated **simple http server** for external API server written in other frameworks/languages.
 
 * In deployment phase:
     - It **generates static files** for all assets written in [preprocessors](#preprocessors).
@@ -148,44 +148,55 @@ resolving assets
     - `foo.html` resolved to `foo.html.jade`
     - `foo.css` or `foo.min.css` resolved to `foo.js.less`
     - `foo.js` or `foo.min.js` resolved to `foo.js.coffee`
-4. for request with infix `.min`, compress the result it if possible. 
-5. find in `includes` directories.
+4. compress it if asset name contains infix `.min` and compressable format(js, css).
+5. otherwise, find in `includes` directories.
     - above procedures(bundle/filter/compress) are **NOT** applied.
 
 for example,
 
-* asset `SRC/test.html` or `SRC/test.html.jade` will generate/serve `DST/test.html`
-    - SRC/test.html.jade
-        ```jade
-        ...
-        link(rel="stylesheet",href="foo.css")
-        link(rel="stylesheet",href="bar.min.css")
-        link(rel="stylesheet",href="bootstrap-all.min.css")
-        script(src="baz.js")
-        script(src="qux.min.s")
-        script(src="bootstrap-all.min.js")
-        ```
-    - DST/test.html
-        ```html
-        <link rel="stylesheet" href="foo.css" />
-        <link rel="stylesheet" href="bar.min.css" />
-        <link rel="stylesheet" href="bootstrap-all.min.css" />
-        <script src="baz.js"></script>
-        <script src="qux.min.js"></script>
-        <script src="bootstrap-all.min.js"></script>
-        ```
-* asset `SRC/bootstrap-all.js.bundle` will generate/serve `DST/boostrap-all.js` and `DST/bootstrap-all.min.js`
-    ```
-    # all bootstrap scripts
-    jquery/dist/jquery.min.js
-    bootstrap/dist/js/bootstrap.min.js
-    ```
-* asset `SRC/bootstrap-all.css.bundle` will generate/serve `DST/bootstrap-all.css` and `DST/bootstrap-all.min.css`
-    ```
-    # all bootstrap styles
-    bootstrap/dist/css/bootstrap.min.css
-    bootstrap/dist/css/bootstrap-theme.min.css
-    ```
+* asset `SRC/test.html` or `SRC/test.html.jade`
+
+```jade
+...
+link(rel="stylesheet",href="foo.css")
+link(rel="stylesheet",href="bar.min.css")
+link(rel="stylesheet",href="bootstrap-all.min.css")
+script(src="baz.js")
+script(src="qux.min.s")
+script(src="bootstrap-all.min.js")
+```
+
+* will generate/serve `DST/test.html`
+
+```html
+<link rel="stylesheet" href="foo.css" />
+<link rel="stylesheet" href="bar.min.css" />
+<link rel="stylesheet" href="bootstrap-all.min.css" />
+<script src="baz.js"></script>
+<script src="qux.min.js"></script>
+<script src="bootstrap-all.min.js"></script>
+```
+
+* asset `SRC/bootstrap-all.js.bundle` 
+
+```
+# all bootstrap scripts
+jquery/dist/jquery.min.js
+bootstrap/dist/js/bootstrap.min.js
+```
+
+* will generate/serve `DST/boostrap-all.js` and `DST/bootstrap-all.min.js`
+
+* asset `SRC/bootstrap-all.css.bundle`
+
+```
+# all bootstrap styles
+bootstrap/dist/css/bootstrap.min.css
+bootstrap/dist/css/bootstrap-theme.min.css
+```
+
+* will generate/serve `DST/bootstrap-all.css` and `DST/bootstrap-all.min.css`
+
 * asset `SRC/foo.css` or `SRC/foo.css.less` will generate/serve `DST/foo.css` and `DST/foo.min.css`.
 * asset `SRC/bar.css` or `SRC/bar.css.less` will generate/serve `DST/bar.css` and `DST/bar.min.css`.
 * asset `SRC/baz.js` or `SRC/baz.js.coffee` will generate/serve `DST/baz.css` and `DST/baz.min.css`.
@@ -199,7 +210,7 @@ There are helpers for preprocessors.
 
 ### js
 
-with `test.js.bundle`
+for example, there are `test.js.bundle`
 ```
 foo.coffee.js
 bar.js
@@ -212,7 +223,7 @@ html
     !=js('test.min.js')
 ```
 
-in 'development' env, it generates `test.html` and `foo.js` and `bar.js`:
+in 'development' env, it generates/serves `test.html`, `foo.js` and `bar.js`:
 ```html
 <html>
   <head>
@@ -220,7 +231,7 @@ in 'development' env, it generates `test.html` and `foo.js` and `bar.js`:
     <script src="bar.js"></script>
 ```
 
-but in **NOT** 'development' env, it generates `test.html` and `test.min.js`(or `test.js`):
+but in **NOT** 'development' env, it generates/serves `test.html` and `test.min.js`(or `test.js`):
 ```html
 <html>
   <head>
@@ -229,7 +240,7 @@ but in **NOT** 'development' env, it generates `test.html` and `test.min.js`(or 
 
 ### css
 
-with `test.css.bundle`
+for example, there are `test.css.bundle`
 ```
 foo.less.css
 bar.css
@@ -242,7 +253,7 @@ html
     !=css('test.min.css')
 ```
 
-in 'development' env, it generates `test.html` and `foo.css` and `bar.css`:
+in 'development' env, it generates/serves `test.html` and `foo.css` and `bar.css`:
 ```html
 <html>
   <head>
@@ -250,7 +261,7 @@ in 'development' env, it generates `test.html` and `foo.css` and `bar.css`:
     <link rel="stylesheet" href="bar.css" />
 ```
 
-but in **NOT** 'development' env, it generates `test.html` `test.min.css`(or `test.css`):
+but in **NOT** 'development' env, it generates/serves `test.html` `test.min.css`(or `test.css`):
 ```html
 <html>
   <head>
@@ -285,10 +296,10 @@ static-content http servers
 ---------------------------
 
 * package
-    - [Apache](http://httpd.apache.org) - FOSS and fast and stable)
-    - [Nginx](http://nginx.org) - FOSS and very fast and stable)
-    - [Cherokee](http://cherokee-project.com) - FOSS and very very fast)
-    - [G-WAN](http://gwan.com) - commercial but extremely fast)
+    - [Apache](http://httpd.apache.org) - FOSS, fast and stable
+    - [Nginx](http://nginx.org) - FOSS, very fast and stable
+    - [Cherokee](http://cherokee-project.com) - FOSS, very very fast
+    - [G-WAN](http://gwan.com) - Commercial but extremely fast
     - ...
 * cloud
     - [GitHub Pages](https://pages.github.com)
