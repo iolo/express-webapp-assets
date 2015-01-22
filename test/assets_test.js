@@ -79,4 +79,15 @@ describe('assets', function () {
     it('should concat js', assetsEqualFn('all.js'));
     it('should concat css and minimize', assetsEqualFn('all.min.css'));
     it('should concat js and minimize', assetsEqualFn('all.min.js'));
+
+    it('should fallback to index.html', function (done) {
+        assets.resolve('/subdir', function (err, file) {
+            //debug('********assetsEqualFn:', name);
+            debug('********', arguments);
+            assert.ifError(err);
+            assert.equal(file, GEN_DIR + '/subdir/index.html');
+            assert.equal(fs.readFileSync(file, 'utf8'), fs.readFileSync(DST_DIR + '/subdir/index.html', 'utf8'));
+            done();
+        });
+    });
 });
